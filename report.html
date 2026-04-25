@@ -3,55 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>മസ്ജിദ് & മദ്രസ റിപ്പോർട്ട്</title>
+    <title>മസ്ജിദ് & മദ്രസ ഡേ ബുക്ക്</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 15px; }
-        .container { background: white; padding: 20px; border-radius: 12px; max-width: 1000px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #1a5d1a; border-bottom: 3px solid #28a745; padding-bottom: 10px; }
+        :root { --primary-green: #1a5d1a; --light-green: #28a745; --bg-gray: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-gray); margin: 0; padding: 10px; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
         
-        .filter-section { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; }
-        .filter-section input, .filter-section select { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        /* ഹെഡർ */
+        .header { text-align: center; margin-bottom: 25px; border-bottom: 3px solid var(--light-green); padding-bottom: 15px; }
+        .header h2 { color: var(--primary-green); margin: 0; font-size: 24px; }
         
+        /* സെർച്ച് കാർഡ് ഡിസൈൻ */
+        .search-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 20px; margin-bottom: 25px; display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; justify-content: center; }
+        .input-group { display: flex; flex-direction: column; gap: 5px; }
+        .input-group label { font-size: 13px; font-weight: bold; color: #555; }
+        .input-group input, .input-group select { padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; min-width: 160px; }
+        
+        .btn { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        .btn-search { background: var(--primary-green); color: white; }
+        .btn-print { background: var(--light-green); color: white; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* ടേബിൾ */
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: center; font-size: 14px; }
-        th { background-color: #28a745; color: white; }
+        th { background-color: var(--light-green); color: white; padding: 12px; font-size: 15px; border: 1px solid #ddd; }
+        td { padding: 12px; text-align: center; border: 1px solid #eee; font-size: 14px; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
         
-        .income-text { color: #28a745; font-weight: bold; }
-        .expense-text { color: #d32f2f; font-weight: bold; }
-        .balance-text { color: #007bff; font-weight: bold; }
-        .total-row { background-color: #e8f5e9 !important; font-weight: bold; font-size: 16px; }
+        .income-amt { color: #28a745; font-weight: bold; }
+        .expense-amt { color: #dc3545; font-weight: bold; }
+        .balance-amt { color: #007bff; font-weight: bold; }
+        .total-row { background-color: #e8f5e9 !important; font-weight: bold; font-size: 16px; border-top: 2px solid var(--light-green); }
 
-        .btn { padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: white; transition: 0.3s; }
-        .filter-btn { background: #2c3e50; }
-        .print-btn { background: #28a745; }
-
-        @media print { .filter-section, .btn { display: none; } }
+        @media print { .search-card, .btn { display: none; } .container { box-shadow: none; padding: 0; } body { padding: 0; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>മസ്ജിദ് & മദ്രസ വരവ് ചിലവ് റിപ്പോർട്ട്</h2>
-    
-    <div class="filter-section">
-        <div>
-            <label style="font-size: 12px;">മുതൽ (DD-MM-YYYY):</label><br>
+    <div class="header">
+        <h2>മസ്ജിദ് & മദ്രസ വരവ് ചിലവ് റിപ്പോർട്ട്</h2>
+    </div>
+
+    <div class="search-card">
+        <div class="input-group">
+            <label>മുതൽ (DD-MM-YYYY):</label>
             <input type="text" id="fromDate" placeholder="01-04-2026">
         </div>
-        <div>
-            <label style="font-size: 12px;">വരെ (DD-MM-YYYY):</label><br>
-            <input type="text" id="toDate" placeholder="21-04-2026">
+        <div class="input-group">
+            <label>വരെ (DD-MM-YYYY):</label>
+            <input type="text" id="toDate" placeholder="30-04-2026">
         </div>
-        <div>
-            <label style="font-size: 12px;">തരം:</label><br>
+        <div class="input-group">
+            <label>തരം തിരഞ്ഞെടുക്കുക:</label>
             <select id="typeFilter">
                 <option value="all">എല്ലാം (Total)</option>
                 <option value="income">വരവ് മാത്രം</option>
                 <option value="expense">ചിലവ് മാത്രം</option>
             </select>
         </div>
-        <button class="btn filter-btn" onclick="applyFilters()">റിപ്പോർട്ട് കാണുക</button>
-        <button class="btn print-btn" onclick="window.print()">Print എടുക്കുക</button>
+        <button class="btn btn-search" onclick="applyFilters()">റിപ്പോർട്ട് കാണുക</button>
+        <button class="btn btn-print" onclick="window.print()">Print</button>
     </div>
 
     <div style="overflow-x:auto;">
@@ -63,10 +75,10 @@
                     <th>വരവ്</th>
                     <th>ചിലവ്</th>
                     <th>ബാലൻസ്</th>
-                </tr>
+                    </tr>
             </thead>
             <tbody id="tableBody">
-                <tr><td colspan="5" style="text-align:center;">ഡാറ്റ ലോഡ് ചെയ്യുന്നു...</td></tr>
+                <tr><td colspan="5">ഡാറ്റ ലോഡ് ചെയ്യുന്നു...</td></tr>
             </tbody>
             <tfoot>
                 <tr id="totalRow" class="total-row"></tr>
@@ -76,49 +88,69 @@
 </div>
 
 <script>
-    // നിങ്ങളുടെ പുതിയ വെബ് ആപ്പ് ലിങ്ക് ഇവിടെ നൽകുക
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbw-z0psRcjO2QMZPdk_j9cI07lvUcP4GcOeAc1cNQ__LUr7LxcADuJS5Esg12CGUCY4/exec';
+    // നിങ്ങളുടെ സ്ക്രിപ്റ്റ് ലിങ്ക് ഇവിടെ നൽകുക
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyPW-vGoM7MMQS1TZ_G53t-faXLL3P7hITkPWxZgJmb_Fqk3wGUauZY8Z_b8nAK3vtR/exec';
     let allData = [];
 
-    // ഡാറ്റ വായിക്കുന്ന ഫങ്ക്ഷൻ
     function loadData() {
         fetch(scriptURL + "?action=read")
             .then(res => res.json())
             .then(data => {
                 allData = data;
-                displayData(allData);
+                applyFilters();
             })
             .catch(err => {
-                document.getElementById('tableBody').innerHTML = '<tr><td colspan="5" style="color:red;">ഡാറ്റ ലഭ്യമായില്ല! ലിങ്ക് പരിശോധിക്കുക.</td></tr>';
+                document.getElementById('tableBody').innerHTML = '<tr><td colspan="5" style="color:red;">ഡാറ്റ ലഭ്യമായില്ല. ലിങ്ക് പരിശോധിക്കുക.</td></tr>';
             });
     }
 
-    // തീയതി സ്ട്രിംഗിനെ (DD-MM-YYYY) താരതമ്യം ചെയ്യാൻ പാകത്തിൽ മാറ്റുന്നു
-    function parseDate(str) {
-        if(!str) return null;
-        const parts = str.split('-');
-        return new Date(parts[2], parts[1] - 1, parts[0]);
+    // തീയതിയിലെ പ്രശ്നങ്ങൾ പരിഹരിക്കാനുള്ള ഫങ്ക്ഷൻ (7-4, 7/4 എന്നിവ 07-04 ആക്കുന്നു)
+    function normalizeDate(dateStr) {
+        if (!dateStr) return null;
+        // ഹൈഫനോ സ്ലാഷോ ഏതായാലും അത് മാറ്റി വേർതിരിക്കുന്നു
+        let parts = dateStr.toString().replace(/\//g, '-').split('-');
+        if (parts.length !== 3) return null;
+        
+        let day = parts[0].padStart(2, '0');
+        let month = parts[1].padStart(2, '0');
+        let year = parts[2];
+        
+        // നാലക്ക വർഷമാണെന്ന് ഉറപ്പാക്കുന്നു (ഉദാ: 26 ആണെങ്കിൽ 2026 ആക്കാം, പക്ഷെ പൂർണ്ണമായി നൽകുന്നതാണ് നല്ലത്)
+        if(year.length === 2) year = "20" + year;
+
+        return {
+            display: ${day}-${month}-${year},
+            value: new Date(year, month - 1, day).getTime()
+        };
     }
 
     function applyFilters() {
         const fromStr = document.getElementById('fromDate').value;
         const toStr = document.getElementById('toDate').value;
-        const type = document.getElementById('typeFilter').value;
+        const typeFilter = document.getElementById('typeFilter').value;
 
-        let filtered = allData;
+        // തീയതിയുടെ ക്രമത്തിൽ ഡാറ്റ അടുക്കുന്നു (Sorting)
+        let sortedData = [...allData].sort((a, b) => {
+            let dateA = normalizeDate(a.date)?.value || 0;
+            let dateB = normalizeDate(b.date)?.value || 0;
+            return dateA - dateB;
+        });
 
+        let filtered = sortedData;
+
+        // ഫിൽട്ടറിംഗ്
         if (fromStr || toStr) {
-            const fromDate = parseDate(fromStr) || new Date(2000, 0, 1);
-            const toDate = parseDate(toStr) || new Date(2100, 0, 1);
+            const fDate = normalizeDate(fromStr)?.value || 0;
+            const tDate = normalizeDate(toStr)?.value || 9999999999999;
 
             filtered = filtered.filter(item => {
-                const itemDate = parseDate(item.date);
-                return itemDate >= fromDate && itemDate <= toDate;
+                const itemDate = normalizeDate(item.date)?.value;
+                return itemDate && itemDate >= fDate && itemDate <= tDate;
             });
         }
 
-        if (type === 'income') filtered = filtered.filter(item => parseFloat(item.income) > 0);
-        if (type === 'expense') filtered = filtered.filter(item => parseFloat(item.expense) > 0);
+        if (typeFilter === 'income') filtered = filtered.filter(item => parseFloat(item.income) > 0);
+        if (typeFilter === 'expense') filtered = filtered.filter(item => parseFloat(item.expense) > 0);
 
         displayData(filtered);
     }
@@ -127,33 +159,33 @@
         let rows = '';
         let totalIncome = 0;
         let totalExpense = 0;
+        let runningBalance = 0;
 
         data.forEach(item => {
-            const inc = parseFloat(item.income) || 0;
-            const exp = parseFloat(item.expense) || 0;
-            const bal = item.balance || ""; 
-            
+            let inc = parseFloat(item.income) || 0;
+            let exp = parseFloat(item.expense) || 0;
             totalIncome += inc;
             totalExpense += exp;
+            runningBalance = totalIncome - totalExpense;
 
-            rows += `<tr>
-                <td>${item.date}</td>
+            let dateInfo = normalizeDate(item.date);
+
+            rows += <tr>
+                <td>${dateInfo ? dateInfo.display : item.date}</td>
                 <td>${item.particulars}</td>
-                <td class="income-text">${inc}</td>
-                <td class="expense-text">${exp}</td>
-                <td class="balance-text">${bal}</td>
-            </tr>`;
+                <td class="income-amt">${inc}</td>
+                <td class="expense-amt">${exp}</td>
+                <td class="balance-amt">${runningBalance}</td>
+            </tr>;
         });
 
-        document.getElementById('tableBody').innerHTML = rows || '<tr><td colspan="5">ഈ തീയതികളിൽ ഡാറ്റ ലഭ്യമല്ല.</td></tr>';
-        
-        // മൊത്തം കണക്ക് കാണിക്കുന്നു
-        document.getElementById('totalRow').innerHTML = `
-            <td colspan="2" style="text-align:right">ആകെ (Total):</td>
-            <td class="income-text">${totalIncome}</td>
-            <td class="expense-text">${totalExpense}</td>
-            <td class="balance-text">${totalIncome - totalExpense}</td>
-        `;
+        document.getElementById('tableBody').innerHTML = rows || '<tr><td colspan="5">വിവരങ്ങൾ ലഭ്യമല്ല.</td></tr>';
+    document.getElementById('totalRow').innerHTML = 
+            <td colspan="2" style="text-align:right">ആകെ ടോട്ടൽ:</td>
+            <td class="income-amt">${totalIncome}</td>
+            <td class="expense-amt">${totalExpense}</td>
+            <td class="balance-amt">${totalIncome - totalExpense}</td>
+        ;
     }
 
     window.onload = loadData;
